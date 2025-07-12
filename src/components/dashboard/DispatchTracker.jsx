@@ -128,8 +128,12 @@ const DispatchTracker = ({ stageId, odooLead }) => {
         </div>
         
         <div className="text-right">
-          <div className="text-lg font-semibold text-primary-500 font-montserrat mb-1">
+          {/* <div className="text-lg font-semibold text-primary-500 font-montserrat mb-1">
             Order ID: {trackingInfo.orderId}
+          </div> */}
+          <div>
+              <span className="text-[#6B4B41] font-nunito">Order ID: </span>
+              <span className="font-semibold text-[#3A1A1A] font-montserrat">#{odooLead.id}</span>
           </div>
           {/* <div className="text-base text-primary-400 font-nunito">
             Courier Facility: {trackingInfo.courierFacility}

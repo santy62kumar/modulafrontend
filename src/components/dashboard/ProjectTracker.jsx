@@ -74,7 +74,7 @@ const ProjectTracker = ({ stageId, odooLead }) => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-8 mb-6">
+    <div className="bg-white rounded-lg shadow-sm p-8 ">
       {/* Header - Figma Style */}
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-primary-500 font-montserrat">

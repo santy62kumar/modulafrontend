@@ -33,16 +33,25 @@ const ServicesPage = () => {
 
 useEffect(() => {
   // Only set if needed
-  setCategory((prev) => (prev !== 'services' ? 'services' : prev));
+  // setCategory((prev) => (prev !== 'services' ? 'services' : prev));
 
+  // return () => {
+  //   if (
+  //     !window.location.pathname.includes('/services') &&
+  //     !window.location.pathname.includes('/service-request')
+  //   ) {
+  //     clearCart();
+  //   }
+  // };
   return () => {
-    if (
-      !window.location.pathname.includes('/services') &&
-      !window.location.pathname.includes('/service-request')
-    ) {
-      clearCart();
-    }
-  };
+  if (
+    !window.location.pathname.includes('/services') &&
+    !window.location.pathname.includes('/service-request') &&
+    !window.location.pathname.includes('/request-submitted') // Add this line
+  ) {
+    clearCart();
+  }
+};
   // ✅ setters (setCategory, clearCart) are stable, so don't add them
 }, []);
 

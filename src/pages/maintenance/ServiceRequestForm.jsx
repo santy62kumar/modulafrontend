@@ -1,4 +1,4 @@
-// // client/src/pages/maintenance/ServiceRequestForm.jsx
+// client/src/pages/maintenance/ServiceRequestForm.jsx
 // import React, { useState, useEffect } from 'react';
 // import { useNavigate, useLocation, useParams } from 'react-router-dom';
 // import { useAuth } from '../../context/AuthContext';
@@ -1368,85 +1368,185 @@ const ServiceRequestForm = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setError('');
 
-    console.log('🚀 Starting form submission...');
-    console.log('📋 Form Data:', formData);
-    console.log('🛒 Cart Items:', items);
-    console.log('📍 Project ID:', projectId);
+  //   console.log('🚀 Starting form submission...');
+  //   console.log('📋 Form Data:', formData);
+  //   console.log('🛒 Cart Items:', items);
+  //   console.log('📍 Project ID:', projectId);
 
-    try {
-      // Create an array to store all the request promises
-      const requestPromises = [];
+  //   try {
+  //     // Create an array to store all the request promises
+  //     const requestPromises = [];
       
-      // Submit all services as separate requests
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        const requestData = {
-          projectId,
-          category: item.category,
-          serviceId: item.service.id,
-          serviceName: item.service.name,
-          description: formData.description,
-          contactName: formData.contactName,
-          contactPhone: formData.contactPhone,
-          preferredDate: formData.preferredDate,
-          urgency: formData.urgency
-        };
+  //     // Submit all services as separate requests
+  //     for (let i = 0; i < items.length; i++) {
+  //       const item = items[i];
+  //       const requestData = {
+  //         projectId,
+  //         category: item.category,
+  //         serviceId: item.service.id,
+  //         serviceName: item.service.name,
+  //         description: formData.description,
+  //         contactName: formData.contactName,
+  //         contactPhone: formData.contactPhone,
+  //         preferredDate: formData.preferredDate,
+  //         urgency: formData.urgency
+  //       };
         
-        console.log(`📤 Submitting service ${i + 1}/${items.length}:`, requestData);
-        requestPromises.push(submitServiceRequest(requestData));
-      }
+  //       console.log(`📤 Submitting service ${i + 1}/${items.length}:`, requestData);
+  //       requestPromises.push(submitServiceRequest(requestData));
+  //     }
 
-      // Wait for all requests to complete
-      console.log('⏳ Waiting for all service requests to complete...');
-      const results = await Promise.all(requestPromises);
-      console.log('✅ All service requests completed:', results);
+  //     // Wait for all requests to complete
+  //     console.log('⏳ Waiting for all service requests to complete...');
+  //     const results = await Promise.all(requestPromises);
+  //     console.log('✅ All service requests completed:', results);
       
-      // Create navigation state
-      const navigationState = {
-        services: items.map(item => item.service),
-        category: items[0]?.category || 'services',
-        requestData: formData,
-        totalServices: totalItems
+  //     // Create navigation state
+  //     const navigationState = {
+  //       services: items.map(item => item.service),
+  //       category: items[0]?.category || 'services',
+  //       requestData: formData,
+  //       totalServices: totalItems
+  //     };
+      
+  //     console.log('🧭 Navigation state:', navigationState);
+      
+      
+  //     // Navigate to success page
+  //     const successPath = `/dashboard/project/${projectId}/request-submitted`;
+  //     console.log('🎯 About to navigate to:', successPath);
+  //     console.log('🔍 Current location before navigation:', window.location.pathname);
+      
+  //     // Check if route exists
+  //     console.log('🛣️ Checking if route exists...');
+      
+  // navigate(successPath, {
+  //   state: navigationState,
+  //   replace: true
+  // });
+  //     // navigate(`/dashboard/project/${projectId}/request-submitted`, { 
+  //     //   replace: true,
+  //     //   state: {
+  //     //     // services: cartItems,
+  //     //     category: category,
+  //     //     requestData: submissionData,
+  //     //     totalServices: cartItems.length
+  //     //   }
+  //     // });
+      
+  //     console.log('✅ Navigation completed!');
+  //     setTimeout(() => {
+  //         console.log('📍 Location after navigate():', window.location.pathname);
+  //         console.log('📊 History length:', window.history.length);
+  //       }, 100);
+        
+  //       setTimeout(() => {
+  //         console.log('📍 Location after 500ms:', window.location.pathname);
+  //       }, 500);
+  //     // Clear cart after successful submission
+  //     console.log('🧹 Clearing cart...');
+  //     clearCart();
+      
+  //   } catch (err) {
+  //     console.error('❌ Error submitting service requests:', err);
+  //     console.error('📄 Error details:', {
+  //       message: err.message,
+  //       response: err.response?.data,
+  //       status: err.response?.status
+  //     });
+      
+  //     setError(err.response?.data?.message || err.message || 'Failed to submit service requests. Please try again.');
+  //   } finally {
+  //     setIsLoading(false);
+  //     console.log('🏁 Form submission process completed');
+      
+  //   }
+  // };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
+
+  console.log('🚀 Starting form submission...');
+  console.log('📋 Form Data:', formData);
+  console.log('🛒 Cart Items:', items);
+  console.log('📍 Project ID:', projectId);
+
+  try {
+    // Create an array to store all the request promises
+    const requestPromises = [];
+    
+    // Submit all services as separate requests
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const requestData = {
+        projectId,
+        category: item.category,
+        serviceId: item.service.id,
+        serviceName: item.service.name,
+        description: formData.description,
+        contactName: formData.contactName,
+        contactPhone: formData.contactPhone,
+        preferredDate: formData.preferredDate,
+        urgency: formData.urgency
       };
       
-      console.log('🧭 Navigation state:', navigationState);
-      
-      
-      
-      // Navigate to success page
-      const successPath = `/dashboard/project/${projectId}/request-submitted`;
-      console.log('🎯 Navigating to:', successPath);
-      
-      navigate(successPath, {
-        state: navigationState,
-        replace: true // Use replace to prevent going back to form
-      });
-      
-      console.log('✅ Navigation completed!');
-
-      // Clear cart after successful submission
-      console.log('🧹 Clearing cart...');
-      clearCart();
-      
-    } catch (err) {
-      console.error('❌ Error submitting service requests:', err);
-      console.error('📄 Error details:', {
-        message: err.message,
-        response: err.response?.data,
-        status: err.response?.status
-      });
-      
-      setError(err.response?.data?.message || err.message || 'Failed to submit service requests. Please try again.');
-    } finally {
-      setIsLoading(false);
-      console.log('🏁 Form submission process completed');
+      console.log(`📤 Submitting service ${i + 1}/${items.length}:`, requestData);
+      requestPromises.push(submitServiceRequest(requestData));
     }
-  };
+
+    // Wait for all requests to complete
+    console.log('⏳ Waiting for all service requests to complete...');
+    const results = await Promise.all(requestPromises);
+    console.log('✅ All service requests completed:', results);
+    
+    // Create navigation state BEFORE clearing cart
+    const navigationState = {
+      services: items.map(item => item.service),
+      category: items[0]?.category || 'services',
+      requestData: formData,
+      totalServices: totalItems
+    };
+    
+    console.log('🧭 Navigation state:', navigationState);
+    console.log('🔍 Current location before navigation:', window.location.pathname);
+    
+    // Navigate to success page FIRST
+    const successPath = `/dashboard/project/${projectId}/request-submitted`;
+    console.log('🎯 Navigating to:', successPath);
+    
+    navigate(successPath, {
+      state: navigationState,
+      replace: true
+    });
+    
+    console.log('✅ Navigation completed!');
+    
+    // Clear cart AFTER navigation in a setTimeout to ensure navigation completes first
+    setTimeout(() => {
+      console.log('🧹 Clearing cart after navigation...');
+      clearCart();
+    }, 100);
+    
+  } catch (err) {
+    console.error('❌ Error submitting service requests:', err);
+    console.error('📄 Error details:', {
+      message: err.message,
+      response: err.response?.data,
+      status: err.response?.status
+    });
+    
+    setError(err.response?.data?.message || err.message || 'Failed to submit service requests. Please try again.');
+  } finally {
+    setIsLoading(false);
+    console.log('🏁 Form submission process completed');
+  }
+};
 
   // Debug: Log current state
   console.log('🔍 Current component state:', {
@@ -1765,7 +1865,7 @@ const ServiceRequestForm = () => {
       <footer className="bg-[#3A1A1A] py-6 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            <div className="flex space-x-6">
+            <div className="flex space-x-6">    
               <a 
                 className="text-[#F1E6DD] hover:text-[#f7d3b6] transition-colors" 
                 href="https://www.instagram.com/modulaindia/"

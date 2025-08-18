@@ -377,7 +377,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { feedbackAPI } from '../../services/api/feedback';
+// import { feedbackAPI } from '../../services/api/feedback';
 
 const RequestSubmitted = () => {
   const navigate = useNavigate();
@@ -390,18 +390,18 @@ const RequestSubmitted = () => {
   // Updated to handle multiple services
   const { services, category, requestData, totalServices } = location.state || {};
 
-  useEffect(() => {
-    checkFeedbackStatus();
-  }, []);
+  // useEffect(() => {
+  //   //checkFeedbackStatus();
+  // }, []);
 
-  const checkFeedbackStatus = async () => {
-    try {
-      const response = await feedbackAPI.checkFeedbackStatus();
-      setFeedbackStatus(response.data);
-    } catch (error) {
-      console.error('Error checking feedback status:', error);
-    }
-  };
+  // const checkFeedbackStatus = async () => {
+  //   try {
+  //     const response = await feedbackAPI.checkFeedbackStatus();
+  //     setFeedbackStatus(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking feedback status:', error);
+  //   }
+  // };
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });

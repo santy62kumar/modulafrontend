@@ -1483,7 +1483,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { authAPI } from '../../services/api/auth';
-import { feedbackAPI } from '../../services/api/feedback';
+// import { feedbackAPI } from '../../services/api/feedback';
 import { StageMapper } from '../../services/tracking/stageMapper';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 import Button from '../../components/ui/Button';
@@ -1504,7 +1504,7 @@ const CustomerDashboard = () => {
   useEffect(() => {
     if (projectId) {
       fetchProjectData();
-      checkFeedbackStatus();
+      //checkFeedbackStatus();
     } else {
       // If no projectId, redirect to project list
       navigate('/dashboard');
@@ -1533,14 +1533,14 @@ const CustomerDashboard = () => {
     { label: "Service History", category: "service-history" },
   ];
 
-  const checkFeedbackStatus = async () => {
-    try {
-      const response = await feedbackAPI.checkFeedbackStatus();
-      setFeedbackStatus(response.data);
-    } catch (error) {
-      console.error('Error checking feedback status:', error);
-    }
-  };
+  // const checkFeedbackStatus = async () => {
+  //   try {
+  //     const response = await feedbackAPI.checkFeedbackStatus();
+  //     setFeedbackStatus(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking feedback status:', error);
+  //   }
+  // };
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });

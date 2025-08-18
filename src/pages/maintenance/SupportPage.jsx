@@ -382,14 +382,14 @@ const SupportPage = () => {
     // ✅ setters (setCategory, clearCart) are stable, so don't add them
   }, []);
 
-  const checkFeedbackStatus = async () => {
-    try {
-      const response = await feedbackAPI.checkFeedbackStatus();
-      setFeedbackStatus(response.data);
-    } catch (error) {
-      console.error('Error checking feedback status:', error);
-    }
-  };
+  // const checkFeedbackStatus = async () => {
+  //   try {
+  //     const response = await feedbackAPI.checkFeedbackStatus();
+  //     setFeedbackStatus(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking feedback status:', error);
+  //   }
+  // };
 
   const handleLogout = () => {
     clearCart(); // Clear cart on logout

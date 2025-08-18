@@ -1,182 +1,205 @@
 // // client/src/services/api/maintenance.js
 // import apiClient from './client';
 
-// export const maintenanceAPI = {
-//   /**
-//    * Submit maintenance request
-//    * @param {Object} requestData - Maintenance request form data
-//    */
-//   submitRequest: async (requestData) => {
+// // Submit a new service request
+// export const submitServiceRequest = async (requestData) => {
+//   try {
 //     const response = await apiClient.post('/maintenance/request', requestData);
 //     return response.data;
-//   },
-
-//   /**
-//    * Get maintenance request history
-//    */
-//   getRequestHistory: async () => {
-//     const response = await apiClient.get('/maintenance/history');
-//     return response.data;
-//   },
-
-//   /**
-//    * Get request status by ID
-//    * @param {string} requestId - Request ID
-//    */
-//   getRequestStatus: async (requestId) => {
-//     const response = await apiClient.get(`/maintenance/status/${requestId}`);
-//     return response.data;
+//   } catch (error) {
+//     console.error('Error submitting service request:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to submit service request. Please try again.'
+//     );
 //   }
 // };
 
+// // Get service requests for a project
+// export const getServiceRequests = async (projectId) => {
+//   try {
+//     const response = await apiClient.get(`/maintenance/requests/${projectId}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching service requests:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to fetch service requests. Please try again.'
+//     );
+//   }
+// };
+
+// // Get all service requests for a customer
+// export const getCustomerServiceRequests = async () => {
+//   try {
+//     const response = await apiClient.get('/maintenance/requests');
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching customer service requests:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to fetch service requests. Please try again.'
+//     );
+//   }
+// };
+
+// // Get service request by ID
+// export const getServiceRequestById = async (requestId) => {
+//   try {
+//     const response = await apiClient.get(`/maintenance/request/${requestId}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error fetching service request:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to fetch service request details. Please try again.'
+//     );
+//   }
+// };
+
+// // Update service request status (for future admin use)
+// export const updateServiceRequestStatus = async (requestId, status, notes = '') => {
+//   try {
+//     const response = await apiClient.patch(`/maintenance/request/${requestId}/status`, {
+//       status,
+//       notes
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error updating service request status:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to update service request status. Please try again.'
+//     );
+//   }
+// };
+
+// // Cancel service request
+// export const cancelServiceRequest = async (requestId, reason = '') => {
+//   try {
+//     const response = await apiClient.patch(`/maintenance/request/${requestId}/cancel`, {
+//       reason
+//     });
+//     return response.data;
+//   } catch (error) {
+//     console.error('Error cancelling service request:', error);
+//     throw new Error(
+//       error.response?.data?.message || 
+//       'Failed to cancel service request. Please try again.'
+//     );
+//   }
+// };
+
+// export default {
+//   submitServiceRequest,
+//   getServiceRequests,
+//   getCustomerServiceRequests,
+//   getServiceRequestById,
+//   updateServiceRequestStatus,
+//   cancelServiceRequest
+// };
+
 // client/src/services/api/maintenance.js
-import apiClient from './client.js';
+import apiClient from './client';
 
-export const maintenanceAPI = {
-  // Submit maintenance request
-  submitRequest: async (requestData) => {
-    try {
-      const response = await apiClient.post('/maintenance/submit', requestData);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Get user's maintenance requests
-  getUserRequests: async () => {
-    try {
-      const response = await apiClient.get('/maintenance/my-requests');
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Get maintenance request by ID
-  getRequestById: async (requestId) => {
-    try {
-      const response = await apiClient.get(`/maintenance/${requestId}`);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Get maintenance request by reference ID
-  getRequestByReference: async (referenceId) => {
-    try {
-      const response = await apiClient.get(`/maintenance/reference/${referenceId}`);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Update request status
-  updateStatus: async (requestId, status, notes = '') => {
-    try {
-      const response = await apiClient.patch(`/maintenance/${requestId}/status`, {
-        status,
-        notes
-      });
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Delete maintenance request (only pending requests)
-  deleteRequest: async (requestId) => {
-    try {
-      const response = await apiClient.delete(`/maintenance/${requestId}`);
-      return response.data;
-    } catch (error) {
-      throw error.response?.data || error;
-    }
-  },
-
-  // Admin APIs
-  admin: {
-    // Get all maintenance requests (admin only)
-    getAllRequests: async (filters = {}, limit = 50) => {
-      try {
-        const params = new URLSearchParams({
-          ...filters,
-          limit: limit.toString()
-        });
-        
-        const response = await apiClient.get(`/maintenance/admin/all?${params}`);
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Get requests by status (admin only)
-    getRequestsByStatus: async (status) => {
-      try {
-        const response = await apiClient.get(`/maintenance/admin/status/${status}`);
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Get pending requests (admin only)
-    getPendingRequests: async () => {
-      try {
-        const response = await apiClient.get('/maintenance/admin/pending');
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Get overdue requests (admin only)
-    getOverdueRequests: async () => {
-      try {
-        const response = await apiClient.get('/maintenance/admin/overdue');
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Get maintenance statistics (admin only)
-    getStatistics: async () => {
-      try {
-        const response = await apiClient.get('/maintenance/admin/statistics');
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Generate maintenance report (admin only)
-    generateReport: async (filters = {}) => {
-      try {
-        const params = new URLSearchParams(filters);
-        const response = await apiClient.get(`/maintenance/admin/report?${params}`);
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    },
-
-    // Assign team to request (admin only)
-    assignTeam: async (requestId, teamId, scheduledDate = null) => {
-      try {
-        const response = await apiClient.post(`/maintenance/admin/${requestId}/assign-team`, {
-          teamId,
-          scheduledDate
-        });
-        return response.data;
-      } catch (error) {
-        throw error.response?.data || error;
-      }
-    }
+export const submitServiceRequest = async (requestData) => {
+  try {
+    const response = await apiClient.post('/maintenance/request', requestData);
+    return response.data;
+  } catch (error) {
+    console.error('Error submitting service request:', error);
+    throw error;
   }
 };
 
-export default maintenanceAPI;
+export const submitMultipleServiceRequests = async (requests) => {
+  try {
+    // Submit all requests concurrently
+    const promises = requests.map(requestData => 
+      submitServiceRequest(requestData)
+    );
+    
+    const results = await Promise.all(promises);
+    return {
+      success: true,
+      data: {
+        totalRequests: results.length,
+        results
+      }
+    };
+  } catch (error) {
+    console.error('Error submitting multiple service requests:', error);
+    throw error;
+  }
+};
+
+export const getServiceRequestsByProject = async (projectId) => {
+  try {
+    const response = await apiClient.get(`/maintenance/requests/${projectId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching service requests:', error);
+    throw error;
+  }
+};
+
+export const getCustomerServiceRequests = async () => {
+  try {
+    const response = await apiClient.get('/maintenance/requests');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching customer service requests:', error);
+    throw error;
+  }
+};
+
+export const getServiceRequestById = async (requestId) => {
+  try {
+    const response = await apiClient.get(`/maintenance/request/${requestId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching service request:', error);
+    throw error;
+  }
+};
+
+export const updateServiceRequestStatus = async (requestId, statusData) => {
+  try {
+    const response = await apiClient.patch(`/maintenance/request/${requestId}/status`, statusData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating service request status:', error);
+    throw error;
+  }
+};
+
+export const cancelServiceRequest = async (requestId, reason = '') => {
+  try {
+    const response = await apiClient.patch(`/maintenance/request/${requestId}/cancel`, { reason });
+    return response.data;
+  } catch (error) {
+    console.error('Error cancelling service request:', error);
+    throw error;
+  }
+};
+
+export const getServiceRequestStats = async () => {
+  try {
+    const response = await apiClient.get('/maintenance/stats');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching service request stats:', error);
+    throw error;
+  }
+};
+
+export default {
+  submitServiceRequest,
+  submitMultipleServiceRequests,
+  getServiceRequestsByProject,
+  getCustomerServiceRequests,
+  getServiceRequestById,
+  updateServiceRequestStatus,
+  cancelServiceRequest,
+  getServiceRequestStats
+};

@@ -60,6 +60,7 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log(`🌐 API Request: ${config.method?.toUpperCase()} ${config.url}`);
     
     // Add request ID for tracking
     config.headers['X-Request-ID'] = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -67,84 +68,78 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error('❌ Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
 
 // Response interceptor for error handling
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem('authToken');
+    
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+    
+//     // Log request for debugging
+//     console.log(`🌐 API Request: ${config.method?.toUpperCase()} ${config.url}`);
+    
+//     return config;
+//   },
+//   (error) => {
+//     console.error('❌ Request interceptor error:', error);
+//     return Promise.reject(error);
+//   }
+// );
+
+// Response interceptor for error handling
 apiClient.interceptors.response.use(
   (response) => {
+    // Log successful response
+    console.log(`✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url} - ${response.status}`);
+    
     return response;
   },
   (error) => {
-    const { response } = error;
-    
-    // Handle different error scenarios
-    if (response) {
-      const { status, data } = response;
+    // Log error response
+    console.error(`❌ API Error: ${error.config?.method?.toUpperCase()} ${error.config?.url}`, {
+      status: error.response?.status,
+      message: error.response?.data?.message || error.message,
+      data: error.response?.data
+    });
+
+    // Handle authentication errors
+    if (error.response?.status === 401) {
+      console.warn('🔐 Authentication failed - clearing token');
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userData');
       
-      switch (status) {
-        case 401:
-          // Unauthorized - clear token and redirect to login
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          
-          // Only redirect if not already on auth pages
-          const currentPath = window.location.pathname;
-          if (!currentPath.includes('/login') && !currentPath.includes('/register')) {
-            window.location.href = '/login';
-          }
-          break;
-          
-        case 403:
-          // Forbidden - user doesn't have permission
-          console.error('Access forbidden:', data?.message);
-          break;
-          
-        case 404:
-          // Not found
-          console.error('Resource not found:', data?.message);
-          break;
-          
-        case 429:
-          // Rate limit exceeded
-          console.error('Rate limit exceeded:', data?.message);
-          break;
-          
-        case 500:
-          // Server error
-          console.error('Server error:', data?.message);
-          break;
-          
-        default:
-          console.error('API Error:', data?.message || error.message);
+      // Redirect to login page
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
       }
-      
-      // Return structured error
-      return Promise.reject({
-        status,
-        message: data?.message || 'An error occurred',
-        errors: data?.errors || [],
-        details: data?.details || null,
-        success: false
-      });
-    } else if (error.request) {
-      // Network error
-      console.error('Network error:', error.message);
-      return Promise.reject({
-        status: 0,
-        message: 'Network error. Please check your connection.',
-        success: false
-      });
-    } else {
-      // Request setup error
-      console.error('Request error:', error.message);
-      return Promise.reject({
-        status: 0,
-        message: 'Request failed. Please try again.',
-        success: false
-      });
     }
+
+    // Handle authorization errors
+    if (error.response?.status === 403) {
+      console.warn('🚫 Access forbidden');
+      // Could redirect to unauthorized page
+    }
+
+    // Handle server errors
+    if (error.response?.status >= 500) {
+      console.error('🔥 Server error detected');
+      // Could show global error notification
+    }
+
+    // Handle network errors
+    if (!error.response) {
+      console.error('📡 Network error - server might be down');
+      error.message = 'Network error. Please check your connection.';
+    }
+
+    return Promise.reject(error);
   }
 );
 

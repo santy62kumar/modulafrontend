@@ -3,28 +3,52 @@ import React from 'react';
 
 const ContactCards = ({ stageId, odooLead }) => {
   const getContactInfo = () => {
-    // Mock data - in real implementation, this could come from Odoo or be configured
+    // Extract real data from Odoo lead
     const contacts = {
       mainContact: {
-        name: 'John Doe ',
-        designation: 'Project Manager',
-        phone: '+91 98765 43210',
-        email: 'john.doe@modula.com',
-        assigned: true,
-        avatar: 'JD'
+        name: odooLead.data?.x_studio_sales_poc_1 || 'John Doe',
+        designation: 'Sales POC',
+        phone: odooLead.data?.x_studio_sales_poc_mob_no_1 || '+91 98765 43210',
+        email: odooLead.data?.email_from || 'john.doe@modula.com',
+        assigned: !!(odooLead.data?.x_studio_sales_poc_1 && odooLead.data?.x_studio_sales_poc_mob_no_1),
+        avatar: getInitials(odooLead.data?.x_studio_sales_poc_1) || 'JD'
       },
       installationSupervisor: {
-        name: stageId >= 10 ? 'Mat Smith' : 'To be assigned',
+        // Show supervisor info only for stages [21,10,22,11,12,26,27] as per PDF
+        name: (shouldShowSupervisor(stageId) && odooLead.data?.x_studio_supervisor_1) 
+          ? odooLead.data.x_studio_supervisor_1 
+          : 'To be assigned',
         designation: 'Fitter Installation Partner',
-        phone: stageId >= 10 ? '+91 87654 32109' : 'N/A',
-        email: stageId >= 10 ? 'mat.smith@partner.com' : 'N/A',
-        assigned: stageId >= 10,
-        scheduledDate: stageId >= 10 ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) : null,
-        avatar: stageId >= 10 ? 'MS' : '?'
+        phone: (shouldShowSupervisor(stageId) && odooLead.data?.x_studio_installation_poc_no_1) 
+          ? odooLead.data.x_studio_installation_poc_no_1 
+          : 'N/A',
+        email: 'N/A', // Not available in Odoo fields
+        assigned: shouldShowSupervisor(stageId) && !!(odooLead.data?.x_studio_supervisor_1 && odooLead.data?.x_studio_installation_poc_no_1),
+        scheduledDate: shouldShowSupervisor(stageId) ? new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) : null,
+        avatar: (shouldShowSupervisor(stageId) && odooLead.data?.x_studio_supervisor_1) 
+          ? getInitials(odooLead.data.x_studio_supervisor_1) 
+          : '?'
       }
     };
     
     return contacts;
+  };
+
+  // Helper function to get initials from name
+  const getInitials = (name) => {
+    if (!name) return '?';
+    return name
+      .split(' ')
+      .map(part => part.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Helper function to determine if supervisor should be shown
+  const shouldShowSupervisor = (stageId) => {
+    // As per PDF: supervisor available after stages [21,10,22,11,12,26,27]
+    return [21, 10, 22, 11, 12, 26, 27].includes(stageId);
   };
 
   const contacts = getContactInfo();
@@ -47,75 +71,37 @@ const ContactCards = ({ stageId, odooLead }) => {
         </div>
 
         {/* Contact Avatar and Name */}
-        <div className="flex items-center space-x-4 mb-4">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold font-montserrat ${
-            contact.assigned ? 'bg-primary-500' : 'bg-gray-400'
-          }`}>
-            {contact.avatar}
-          </div>
-          <div>
-            <div className={`text-lg font-semibold font-montserrat ${
-              contact.assigned ? 'text-primary-500' : 'text-gray-500'
-            }`}>
-              {contact.name}
-            </div>
-            <div className="text-sm text-primary-400 font-nunito">
-              {contact.designation}
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Information */}
-        {contact.assigned && (
-          <div className="space-y-3">
-            <div className="flex items-center space-x-3">
-              <div className="w-5 h-5 flex items-center justify-center">
-                📞
+        {/* Contact Avatar, Name, and Phone */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-4">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold font-montserrat ${
+                contact.assigned ? 'bg-primary-500' : 'bg-gray-400'
+              }`}>
+                {contact.avatar}
               </div>
-              <div className="flex-1">
+              <div>
+                <div className={`text-lg font-semibold font-montserrat ${
+                  contact.assigned ? 'text-primary-500' : 'text-gray-500'
+                }`}>
+                  {contact.name}
+                </div>
+              </div>
+            </div>
+
+            {/* Phone aligned to right */}
+            {contact.assigned && (
+              <div className="flex-1 text-right">
+                
                 <div className="text-sm font-medium text-primary-500 font-nunito">
-                  {contact.phone}
+                  Contact No:  {contact.phone}
                 </div>
-              </div>
-              {/* <button className="text-xs bg-primary-100 text-primary-500 px-3 py-1 rounded hover:bg-primary-200 transition-colors duration-200 font-nunito">
-                Call
-              </button> */}
-            </div>
-
-            {contact.email !== 'N/A' && (
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  ✉️
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-primary-500 font-nunito">
-                    {contact.email}
-                  </div>
-                </div>
-                {/* <button className="text-xs bg-primary-100 text-primary-500 px-3 py-1 rounded hover:bg-primary-200 transition-colors duration-200 font-nunito">
-                  Email
-                </button> */}
               </div>
             )}
-
-            {/* Installation Scheduling */}
-            {/* {type === 'installation' && contact.scheduledDate && (
-              <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 flex items-center justify-center">
-                  🕒
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-primary-500 font-nunito">
-                    {contact.scheduledDate.toLocaleDateString('en-IN')} at 10:00 AM
-                  </div>
-                  <div className="text-xs text-gray-500 font-nunito">
-                    Installation scheduled
-                  </div>
-                </div>
-              </div>
-            )} */}
           </div>
-        )}
+
+
+        {/* Contact Information */}
+        
 
         {/* Not Assigned State */}
         {!contact.assigned && (
@@ -154,7 +140,7 @@ const ContactCards = ({ stageId, odooLead }) => {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ContactCard
-          title="Main Person of Contact"
+          title="Sales POC"
           contact={contacts.mainContact}
           type="main"
         />

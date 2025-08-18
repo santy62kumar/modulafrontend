@@ -1,20 +1,95 @@
+// // // client/src/pages/maintenance/SupportPage.jsx
+// // import React from 'react';
+// // import { useNavigate, useParams } from 'react-router-dom';
+// // import ServiceCard from '../../components/maintenance/ServiceCard';
+// // import ServiceNavigation from '../../components/maintenance/ServiceNavigation';
+// // import { servicesData } from '../../data/servicesData';
 
+// // const SupportPage = () => {
+// //   const navigate = useNavigate();
+// //   const { projectId } = useParams();
 
-// // client/src/pages/maintenance/RequestSubmitted.jsx
+// //   const handleRequestService = (service) => {
+// //     navigate(`/dashboard/project/${projectId}/service-request`, {
+// //       state: {
+// //         service,
+// //         category: 'support',
+// //         projectId
+// //       }
+// //     });
+// //   };
+
+// //   return (
+// //     <div className="min-h-screen bg-gray-50">
+    
+// //       {/* Navigation */}
+// //       <ServiceNavigation projectId={projectId} />
+      
+// //       {/* Header */}
+// //       <div className="bg-white shadow-sm">
+// //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+// //           <div className="flex items-center justify-between">
+// //             <div>
+// //               <h1 className="text-2xl font-bold text-gray-900">Support</h1>
+// //               <p className="text-gray-600 mt-1">Get help with repairs, fixes, and troubleshooting</p>
+// //             </div>
+// //             <button
+// //               onClick={() => navigate(`/dashboard/project/${projectId}`)}
+// //               className="flex items-center text-[#3A1A1A] hover:text-[#2b1414] transition-colors"
+// //             >
+// //               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+// //                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+// //               </svg>
+// //               Back to Dashboard
+// //             </button>
+// //           </div>
+// //         </div>
+// //       </div>
+
+// //       {/* Support Grid */}
+// //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+// //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+// //           {servicesData.support.map((service) => (
+// //             <ServiceCard
+// //               key={service.id}
+// //               service={service}
+// //               onRequestService={handleRequestService}
+// //             />
+// //           ))}
+// //         </div>
+// //       </div>
+
+// //       {/* Empty State */}
+// //       {servicesData.support.length === 0 && (
+// //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+// //           <div className="text-center">
+// //             <div className="text-6xl mb-4">🛠️</div>
+// //             <h3 className="text-lg font-medium text-gray-900 mb-2">No Support Options Available</h3>
+// //             <p className="text-gray-500">Support services will be available soon.</p>
+// //           </div>
+// //         </div>
+// //       )}
+// //     </div>
+// //   );
+// // };
+
+// // export default SupportPage;
+
+// // client/src/pages/maintenance/SupportPage.jsx
 // import React, { useState, useEffect } from 'react';
-// import { useNavigate, useLocation, useParams } from 'react-router-dom';
+// import { useNavigate, useParams } from 'react-router-dom';
 // import { useAuth } from '../../context/AuthContext';
 // import { feedbackAPI } from '../../services/api/feedback';
+// import ServiceCard from '../../components/maintenance/ServiceCard';
+// import ServiceNavigation from '../../components/maintenance/ServiceNavigation';
+// import { servicesData } from '../../data/servicesData';
 
-// const RequestSubmitted = () => {
+// const SupportPage = () => {
 //   const navigate = useNavigate();
-//   const location = useLocation();
 //   const { projectId } = useParams();
 //   const { state, dispatch } = useAuth();
 //   const [feedbackStatus, setFeedbackStatus] = useState(null);
 //   const [open, setOpen] = useState(false);
-
-//   const { service, category, requestData } = location.state || {};
 
 //   useEffect(() => {
 //     checkFeedbackStatus();
@@ -45,50 +120,22 @@
 //     navigate(`/dashboard/project/${projectId}/${category}`);
 //   };
 
+//   const handleRequestService = (service) => {
+//     navigate(`/dashboard/project/${projectId}/service-request`, {
+//       state: {
+//         service,
+//         category: 'support',
+//         projectId
+//       }
+//     });
+//   };
+
 //   const menuItems = [
 //     { label: 'Services', category: 'services' },
 //     { label: 'Upgrade', category: 'upgrade' },
 //     { label: 'Support', category: 'support' },
 //     { label: "Service History", category: "service-history" },
 //   ];
-
-//   const formatDate = (dateString) => {
-//     if (!dateString) return 'Not specified';
-//     return new Date(dateString).toLocaleDateString('en-US', {
-//       weekday: 'long',
-//       year: 'numeric',
-//       month: 'long',
-//       day: 'numeric'
-//     });
-//   };
-
-//   const formatUrgency = (urgency) => {
-//     const urgencyMap = {
-//       low: { label: 'Low Priority', color: 'text-green-600', bgColor: 'bg-green-100' },
-//       normal: { label: 'Normal Priority', color: 'text-blue-600', bgColor: 'bg-blue-100' },
-//       high: { label: 'High Priority', color: 'text-orange-600', bgColor: 'bg-orange-100' },
-//       urgent: { label: 'Urgent', color: 'text-red-600', bgColor: 'bg-red-100' }
-//     };
-//     return urgencyMap[urgency] || urgencyMap.normal;
-//   };
-
-//   if (!service || !category || !requestData) {
-//     return (
-//       <div className="min-h-screen bg-[#F1E6DD] flex items-center justify-center">
-//         <div className="text-center">
-//           <h2 className="text-2xl font-semibold text-gray-900 mb-4">Request Not Found</h2>
-//           <button
-//             onClick={() => navigate(`/dashboard/project/${projectId}`)}
-//             className="text-[#3A1A1A] hover:text-[#2b1414] font-medium"
-//           >
-//             Return to Dashboard
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   const urgencyInfo = formatUrgency(requestData.urgency);
 
 //   return (
 //     <div className="min-h-screen bg-[#F1E6DD]">
@@ -197,123 +244,53 @@
 //         </div>
 //       </header>
 
-//       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-//         {/* Success Header */}
-//         <div className="text-center mb-8">
-//           {/* <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-//             <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-//             </svg>
-//           </div> */}
-//           <h1 className="text-3xl font-bold text-[#3A1A1A] font-montserrat">Request Submitted Successfully!</h1>
-//           {/* <p className="text-gray-600">Your service request has been received and is being processed.</p> */}
-//         </div>
-
-//         {/* Request Details Card */}
-//         <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-//           <div className="px-6 py-4 bg-gray-50 border-b">
-//             <h2 className="text-lg font-semibold text-gray-900">Request Details</h2>
+//       {/* Navigation */}
+//       {/* <ServiceNavigation projectId={projectId} /> */}
+      
+//       {/* Header */}
+//       <div className="bg-[#F1E6DD]">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+//           <div className="flex items-center justify-between">
+//             <div>
+//               <h1 className="text-3xl font-bold text-[#3A1A1A] font-montserrat">Support</h1>
+//               {/* <p className="text-gray-600 mt-1">Get help with repairs, fixes, and troubleshooting</p> */}
+//             </div>
+//             {/* <button
+//               onClick={() => navigate(`/dashboard/project/${projectId}`)}
+//               className="flex items-center text-[#3A1A1A] hover:text-[#2b1414] transition-colors"
+//             >
+//               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+//               </svg>
+//               Back to Dashboard
+//             </button> */}
 //           </div>
-          
-//           <div className="p-6 space-y-4">
-//             {/* Service Info */}
-//             <div className="flex items-start space-x-4 pb-4 border-b">
-//               <div className="text-3xl">{service.icon}</div>
-//               <div className="flex-1">
-//                 <h3 className="text-lg font-medium text-gray-900">{service.name}</h3>
-//                 <p className="text-sm text-gray-500 capitalize mb-2">{category}</p>
-//                 {service.description && (
-//                   <p className="text-sm text-gray-600">{service.description}</p>
-//                 )}
-//               </div>
-//               <div className={`px-3 py-1 rounded-full text-xs font-medium ${urgencyInfo.bgColor} ${urgencyInfo.color}`}>
-//                 {urgencyInfo.label}
-//               </div>
-//             </div>
-
-//             {/* Request Details */}
-//             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//               <div>
-//                 <dt className="text-sm font-medium text-gray-500 mb-1">Contact Name</dt>
-//                 <dd className="text-sm text-gray-900">{requestData.contactName}</dd>
-//               </div>
-              
-//               <div>
-//                 <dt className="text-sm font-medium text-gray-500 mb-1">Contact Phone</dt>
-//                 <dd className="text-sm text-gray-900">{requestData.contactPhone}</dd>
-//               </div>
-              
-//               <div>
-//                 <dt className="text-sm font-medium text-gray-500 mb-1">Preferred Date</dt>
-//                 <dd className="text-sm text-gray-900">{formatDate(requestData.preferredDate)}</dd>
-//               </div>
-              
-//               <div>
-//                 <dt className="text-sm font-medium text-gray-500 mb-1">Request Status</dt>
-//                 <dd className="flex items-center">
-//                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-//                     <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-//                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-//                     </svg>
-//                     Pending
-//                   </span>
-//                 </dd>
-//               </div>
-//             </div>
-
-//             {/* Description */}
-//             {requestData.description && (
-//               <div>
-//                 <dt className="text-sm font-medium text-gray-500 mb-1">Description</dt>
-//                 <dd className="text-sm text-gray-900 bg-gray-50 p-3 rounded-md">
-//                   {requestData.description}
-//                 </dd>
-//               </div>
-//             )}
-//           </div>
-//         </div>
-
-//         {/* Next Steps */}
-//         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-//           <h3 className="text-lg font-medium text-blue-900 mb-3">What Happens Next?</h3>
-//           <div className="space-y-3">
-//             <div className="flex items-start">
-//               <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</div>
-//               <p className="text-sm text-blue-800">Our team will review your request within 24 hours</p>
-//             </div>
-//             <div className="flex items-start">
-//               <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</div>
-//               <p className="text-sm text-blue-800">A technician will be assigned based on your location and requirements</p>
-//             </div>
-//             <div className="flex items-start">
-//               <div className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</div>
-//               <p className="text-sm text-blue-800">You'll receive a confirmation call to schedule the service</p>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Action Buttons */}
-//         <div className="flex flex-col sm:flex-row gap-4">
-//           <button
-//             onClick={() => navigate(`/dashboard/project/${projectId}`)}
-//             className="flex-1 bg-[#3A1A1A] text-white py-3 px-6 rounded-lg hover:bg-[#2b1414] transition-colors font-medium text-center"
-//           >
-//             Back to Dashboard
-//           </button>
-          
-//           <button
-//             onClick={() => navigate(`/dashboard/project/${projectId}/services`)}
-//             className="flex-1 border border-[#3A1A1A] text-[#3A1A1A] py-3 px-6 rounded-lg hover:bg-[#3A1A1A] hover:text-white transition-colors font-medium text-center"
-//           >
-//             Request Another Service
-//           </button>
-//         </div>
-
-//         {/* Support Note */}
-//         <div className="mt-8 text-center text-sm text-gray-500">
-//           <p>Need help? Contact our support team at <span className="font-medium">support@modula.in</span></p>
 //         </div>
 //       </div>
+
+//       {/* Support Grid */}
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//           {servicesData.support.map((service) => (
+//             <ServiceCard
+//               key={service.id}
+//               service={service}
+//               onRequestService={handleRequestService}
+//             />
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* Empty State */}
+//       {servicesData.support.length === 0 && (
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+//           <div className="text-center">
+//             <div className="text-6xl mb-4">🛠️</div>
+//             <h3 className="text-lg font-medium text-gray-900 mb-2">No Support Options Available</h3>
+//             <p className="text-gray-500">Support services will be available soon.</p>
+//           </div>
+//         </div>
+//       )}
 
 //       {/* Footer */}
 //       <footer className="bg-[#3A1A1A] py-6">
@@ -371,27 +348,38 @@
 //   );
 // };
 
-// export default RequestSubmitted;
+// export default SupportPage;
 
-// client/src/pages/maintenance/RequestSubmitted.jsx
+// client/src/pages/maintenance/SupportPage.jsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useServiceCart } from '../../context/ServiceCartContext';
 import { feedbackAPI } from '../../services/api/feedback';
+import ServiceCard from '../../components/maintenance/ServiceCard';
+import { servicesData } from '../../data/servicesData';
 
-const RequestSubmitted = () => {
+const SupportPage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { projectId } = useParams();
   const { state, dispatch } = useAuth();
+  const { totalItems, canProceedToCheckout, setCategory, clearCart } = useServiceCart();
   const [feedbackStatus, setFeedbackStatus] = useState(null);
   const [open, setOpen] = useState(false);
 
-  // Updated to handle multiple services
-  const { services, category, requestData, totalServices } = location.state || {};
-
   useEffect(() => {
-    checkFeedbackStatus();
+    // Only set if needed
+    setCategory((prev) => (prev !== 'support' ? 'support' : prev));
+
+    return () => {
+      if (
+        !window.location.pathname.includes('/services') &&
+        !window.location.pathname.includes('/service-request')
+      ) {
+        clearCart();
+      }
+    };
+    // ✅ setters (setCategory, clearCart) are stable, so don't add them
   }, []);
 
   const checkFeedbackStatus = async () => {
@@ -404,6 +392,7 @@ const RequestSubmitted = () => {
   };
 
   const handleLogout = () => {
+    clearCart(); // Clear cart on logout
     dispatch({ type: 'LOGOUT' });
   };
 
@@ -419,50 +408,16 @@ const RequestSubmitted = () => {
     navigate(`/dashboard/project/${projectId}/${category}`);
   };
 
+  const handleProceedToCheckout = () => {
+    navigate(`/dashboard/project/${projectId}/service-request`);
+  };
+
   const menuItems = [
     { label: 'Services', category: 'services' },
     { label: 'Upgrade', category: 'upgrade' },
     { label: 'Support', category: 'support' },
     { label: "Service History", category: "service-history" },
   ];
-
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Not specified';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const formatUrgency = (urgency) => {
-    const urgencyMap = {
-      low: { label: 'Low Priority', color: 'text-green-600', bgColor: 'bg-green-100' },
-      normal: { label: 'Normal Priority', color: 'text-blue-600', bgColor: 'bg-blue-100' },
-      high: { label: 'High Priority', color: 'text-orange-600', bgColor: 'bg-orange-100' },
-      urgent: { label: 'Urgent', color: 'text-red-600', bgColor: 'bg-red-100' }
-    };
-    return urgencyMap[urgency] || urgencyMap.normal;
-  };
-
-  if (!services || !category || !requestData) {
-    return (
-      <div className="min-h-screen bg-[#F1E6DD] flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Request Not Found</h2>
-          <button
-            onClick={() => navigate(`/dashboard/project/${projectId}`)}
-            className="text-[#3A1A1A] hover:text-[#2b1414] font-medium"
-          >
-            Return to Dashboard
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  const urgencyInfo = formatUrgency(requestData.urgency);
 
   return (
     <div className="min-h-screen bg-[#F1E6DD]">
@@ -570,124 +525,97 @@ const RequestSubmitted = () => {
           </div>
         </div>
       </header>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Success Header */}
-        <div className="text-center mb-8">
-          {/* <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-            <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div> */}
-          <h1 className="text-3xl font-bold text-[#3A1A1A] font-montserrat">
-            Submitted Successfully!
-          </h1>
-          {/* <p className="text-[#6B4B41] mt-2">
-            {totalServices === 1 
-              ? 'Your service request has been received and is being processed.'
-              : `All ${totalServices} service requests have been received and are being processed.`
-            }
-          </p> */}
-        </div>
-
-        {/* Request Details Card */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
-          <div className="px-6 py-4 bg-gray-50 border-b">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-gray-900">Request Details</h2>
-              <div className={`px-3 py-1 rounded-full text-xs font-medium ${urgencyInfo.bgColor} ${urgencyInfo.color}`}>
-                {urgencyInfo.label}
-              </div>
-            </div>
-          </div>
-          
-          <div className="p-6 space-y-6">
-            {/* Services List */}
+      
+      {/* Header with Cart */}
+      <div className="bg-[#F1E6DD]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-3">
-                Submitted Services ({totalServices}):
-              </h3>
-              <div className="space-y-3">
-                {services.map((service, index) => (
-                  <div key={service.id} className="flex items-center space-x-4 p-3 bg-gray-50 rounded-md">
-                    {/* <div className="text-2xl">{service.icon}</div> */}
-                    <div className="flex-1">
-                      <h4 className="font-medium text-gray-900">{service.name}</h4>
-                      {/* <p className="text-sm text-gray-500 capitalize">{category}</p>
-                      {service.description && (
-                        <p className="text-xs text-gray-600 mt-1">{service.description}</p>
-                      )} */}
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                        </svg>
-                        Pending
-                      </span>
-                    </div>
+              <h1 className="text-3xl font-bold text-[#3A1A1A] font-montserrat">Support</h1>
+              {/* <p className="text-[#6B4B41] mt-1">Get help with repairs, fixes, and troubleshooting</p> */}
+            </div>
+            
+            {/* Cart Badge and Checkout Button */}
+            <div className="flex items-center space-x-4">
+              {/* Cart Badge */}
+              <div className="relative">
+                <div className="flex items-center space-x-2 bg-white rounded-lg px-4 py-2 shadow-sm border border-[#D7C5AA]">
+                  <svg className="w-5 h-5 text-[#6B4B41]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L5 3H3m4 10v6a1 1 0 001 1h6a1 1 0 001-1v-6m-8 0V9a1 1 0 011-1h6a1 1 0 011-1v4" />
+                  </svg>
+                  <span className="text-sm font-medium text-[#3A1A1A]">
+                    {totalItems} {totalItems === 1 ? 'Service' : 'Services'}
+                  </span>
+                </div>
+                {totalItems > 0 && (
+                  <div className="absolute -top-2 -right-2 bg-[#AF7C71] text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold">
+                    {totalItems}
                   </div>
-                ))}
+                )}
               </div>
+              
+              {/* Checkout Button */}
+              {canProceedToCheckout() && (
+                <button
+                  onClick={handleProceedToCheckout}
+                  className="bg-[#AF7C71] text-white px-6 py-2 rounded-lg hover:bg-[#6B4B41] transition-colors font-medium flex items-center space-x-2 animate-pulse hover:animate-none"
+                >
+                  <span>Submit</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              )}
             </div>
-
-            {/* Request Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200">
-              <div>
-                <dt className="text-sm font-medium text-gray-500 mb-1">Contact Name</dt>
-                <dd className="text-sm text-gray-900">{requestData.contactName}</dd>
-              </div>
-              
-              <div>
-                <dt className="text-sm font-medium text-gray-500 mb-1">Contact Phone</dt>
-                <dd className="text-sm text-gray-900">{requestData.contactPhone}</dd>
-              </div>
-              
-              <div>
-                <dt className="text-sm font-medium text-gray-500 mb-1">Preferred Date</dt>
-                <dd className="text-sm text-gray-900">{formatDate(requestData.preferredDate)}</dd>
-              </div>
-              
-              <div>
-                <dt className="text-sm font-medium text-gray-500 mb-1">Total Requests</dt>
-                <dd className="text-sm text-gray-900 font-medium">{totalServices} service{totalServices > 1 ? 's' : ''}</dd>
-              </div>
-            </div>
-
-            {/* Description */}
-            {requestData.description && (
-              <div className="pt-4 border-t border-gray-200">
-                <dt className="text-sm font-medium text-gray-500 mb-1">Overall Description</dt>
-                <dd className="text-sm text-gray-900 bg-gray-50 p-3 rounded-md">
-                  {requestData.description}
-                </dd>
-              </div>
-            )}
           </div>
         </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={() => navigate(`/dashboard/project/${projectId}`)}
-            className="flex-1 bg-[#3A1A1A] text-white py-3 px-6 rounded-lg hover:bg-[#2b1414] transition-colors font-medium text-center"
-          >
-            Back to Dashboard
-          </button>
-          
-          <button
-            onClick={() => navigate(`/dashboard/project/${projectId}/services`)}
-            className="flex-1 border border-[#3A1A1A] text-[#3A1A1A] py-3 px-6 rounded-lg hover:bg-[#3A1A1A] hover:text-white transition-colors font-medium text-center"
-          >
-            Request More Services
-          </button>
-        </div>
-
-        {/* Support Note */}
-        {/* <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Need help? Contact our support team at <span className="font-medium">support@modula.in</span></p>
-        </div> */}
       </div>
+
+      {/* Support Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {servicesData.support.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              category="support"
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Empty State */}
+      {servicesData.support.length === 0 && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🛠️</div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No Support Options Available</h3>
+            <p className="text-gray-500">Support services will be available soon.</p>
+          </div>
+        </div>
+      )}
+
+      {/* Selected Services Summary (Mobile/Bottom) */}
+      {canProceedToCheckout() && (
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-40">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <svg className="w-5 h-5 text-[#6B4B41]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m1.6 8L5 3H3m4 10v6a1 1 0 001 1h6a1 1 0 001-1v-6m-8 0V9a1 1 0 011-1h6a1 1 0 011-1v4" />
+              </svg>
+              {/* <span className="font-medium text-[#3A1A1A]">
+                {totalItems} {totalItems === 1 ? 'service' : 'services'} selected
+              </span> */}
+            </div>
+            <button
+              onClick={handleProceedToCheckout}
+              className="bg-[#AF7C71] text-white px-6 py-2 rounded-lg hover:bg-[#6B4B41] transition-colors font-medium"
+            >
+              Checkout
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-[#3A1A1A] py-6">
@@ -745,4 +673,4 @@ const RequestSubmitted = () => {
   );
 };
 
-export default RequestSubmitted;
+export default SupportPage;

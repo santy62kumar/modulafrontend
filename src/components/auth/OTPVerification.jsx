@@ -64,6 +64,8 @@ const OTPVerification = () => {
       });
       
       addToast('Login successful!', 'success');
+      //changes required 
+      // navigate to project list
       navigate('/dashboard');
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Invalid OTP';

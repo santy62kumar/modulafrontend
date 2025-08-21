@@ -223,7 +223,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { feedbackAPI } from '../../services/api/feedback';
+// import { feedbackAPI } from '../../services/api/feedback';
 import { getServiceRequestsByProject } from '../../services/api/maintenance';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 
@@ -242,7 +242,17 @@ const ServiceHistory = () => {
       try {
         setIsLoading(true);
         const data = await getServiceRequestsByProject(projectId);
-        setRequests(data.requests || []);
+        console.log('Service requests data:', data);
+        console.log("request data received ",data.data.requests);
+        console.log("request data received ",data.data.projectId);
+        //const total = data?.total ?? requests.length;
+        //console.log("request data total", total);
+        setRequests(data.data.requests || []);
+        // const req = Array.isArray(data?.requests) ? data.requests : [];
+        // console.log("request data fetched", req );
+        // const total = data?.total ?? requests.length;
+        // console.log("request data total", total);
+        
       } catch (err) {
         console.error('Error fetching service requests:', err);
         setError(err.message);
@@ -255,17 +265,17 @@ const ServiceHistory = () => {
       fetchServiceRequests();
     }
 
-    checkFeedbackStatus();
+    //checkFeedbackStatus();
   }, [projectId]);
 
-  const checkFeedbackStatus = async () => {
-    try {
-      const response = await feedbackAPI.checkFeedbackStatus();
-      setFeedbackStatus(response.data);
-    } catch (error) {
-      console.error('Error checking feedback status:', error);
-    }
-  };
+  // const checkFeedbackStatus = async () => {
+  //   try {
+  //     const response = await feedbackAPI.checkFeedbackStatus();
+  //     setFeedbackStatus(response.data);
+  //   } catch (error) {
+  //     console.error('Error checking feedback status:', error);
+  //   }
+  // };
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
@@ -336,6 +346,8 @@ const ServiceHistory = () => {
       </div>
     );
   }
+
+
 
   return (
     <div className="min-h-screen bg-[#F1E6DD]">
@@ -498,9 +510,9 @@ const ServiceHistory = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4 flex-1">
                       {/* Category Icon */}
-                      <div className="text-2xl">
+                      {/* <div className="text-2xl">
                         {getCategoryIcon(request.category)}
-                      </div>
+                      </div> */}
                       
                       {/* Request Details */}
                       <div className="flex-1 min-w-0">

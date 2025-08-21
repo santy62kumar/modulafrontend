@@ -165,38 +165,38 @@ export const feedbackAPI = {
    * ✅ Check feedback status using boolean flags
    * Returns: { canSubmit, hasSubmitted, status, message }
    */
-  // checkFeedbackStatus: async () => {
-  //   try {
-  //     const response = await apiClient.get('/feedback/status');
-  //     return response.data;
-  //   } catch (error) {
-  //     // Handle different error scenarios gracefully
-  //     if (error.response?.status === 403) {
-  //       return {
-  //         success: false,
-  //         data: {
-  //           canSubmit: false,
-  //           hasSubmitted: false,
-  //           message: 'Feedback not available yet'
-  //         }
-  //       };
-  //     }
-  //     throw error.response?.data || error;
-  //   }
-  //},
+  checkFeedbackStatus: async () => {
+    try {
+      const response = await apiClient.get('/feedback/status');
+      return response.data;
+    } catch (error) {
+      // Handle different error scenarios gracefully
+      if (error.response?.status === 403) {
+        return {
+          success: false,
+          data: {
+            canSubmit: false,
+            hasSubmitted: false,
+            message: 'Feedback not available yet'
+          }
+        };
+      }
+      throw error.response?.data || error;
+    }
+  },
 
   /**
    * ✅ Check feedback eligibility (alternative endpoint)
    * More specific than status check
    */
-  // checkFeedbackEligibility: async () => {
-  //   try {
-  //     const response = await apiClient.get('/feedback/eligibility');
-  //     return response.data;
-  //   } catch (error) {
-  //     throw error.response?.data || error;
-  //   }
-  // },
+  checkFeedbackEligibility: async () => {
+    try {
+      const response = await apiClient.get('/feedback/eligibility');
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || error;
+    }
+  },
 
   /**
    * ✅ Submit feedback form

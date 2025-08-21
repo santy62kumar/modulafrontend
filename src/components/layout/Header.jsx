@@ -145,12 +145,12 @@ const Header = () => {
             Feedback
           </button>
           
-          <button
+          {/* <button
             onClick={() => navigate('/dashboard/request_maintenance')}
             className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#D7C5AA] text-[#3A1A1A] px-4 py-2 rounded-[30px] hover:bg-[#AF7C71] hover:text-white transition-colors text-center"
           >
             Maintenance
-          </button>
+          </button> */}
           
           <button
             onClick={handleLogout}
@@ -172,12 +172,12 @@ const Header = () => {
             Dashboard
           </button>
           
-          <button
+          {/* <button
             onClick={() => navigate('/dashboard/request_maintenance')}
             className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#AF7C71] text-white px-4 py-2 rounded-[30px] hover:bg-[#6B4B41] transition-colors text-center"
           >
             Maintenance
-          </button>
+          </button> */}
           
           <button
             onClick={handleLogout}

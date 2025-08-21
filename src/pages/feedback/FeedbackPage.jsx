@@ -138,7 +138,7 @@ const FeedbackPage = () => {
             {feedbackStatus.message || 'Your feedback form will be available after the project installation is completed. We will notify you via SMS when it\'s ready.'}
           </p>
           
-          <div className="bg-[#F1E6DD] rounded-lg p-6 max-w-md mx-auto mb-8">
+          {/* <div className="bg-[#F1E6DD] rounded-lg p-6 max-w-md mx-auto mb-8">
             <h4 className="font-semibold text-[#3A1A1A] font-montserrat mb-3">What happens next?</h4>
             <div className="space-y-2 text-sm text-[#6B4B41] font-nunito">
               <div className="flex items-center">
@@ -154,7 +154,7 @@ const FeedbackPage = () => {
                 Feedback form becomes available
               </div>
             </div>
-          </div>
+          </div> */}
 
           <Button onClick={() => navigate('/dashboard')}>
             Back to Dashboard
@@ -178,15 +178,15 @@ const FeedbackPage = () => {
           {/* Header Section */}
           <div className="bg-[#6B4B41] px-8 py-6">
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#AF7C71] rounded-lg flex items-center justify-center mx-auto mb-4">
+              {/* <div className="w-16 h-16 bg-[#AF7C71] rounded-lg flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">📝</span>
-              </div>
+              </div> */}
               <h1 className="text-2xl font-bold text-white font-montserrat mb-2">
-                Customer Feedback Form
+                Feedback
               </h1>
-              <p className="text-[#F1E6DD] font-nunito">
+              {/* <p className="text-[#F1E6DD] font-nunito">
                 Your feedback helps us improve our service and ensure a seamless experience
-              </p>
+              </p> */}
             </div>
           </div>
 

@@ -1,308 +1,10 @@
-// // // client/src/pages/maintenance/UpgradePage.jsx
-// // import React from 'react';
-// // import { useNavigate, useParams } from 'react-router-dom';
-// // import ServiceCard from '../../components/maintenance/ServiceCard';
-// // import ServiceNavigation from '../../components/maintenance/ServiceNavigation';
-// // import { servicesData } from '../../data/servicesData';
-
-// // const UpgradePage = () => {
-// //   const navigate = useNavigate();
-// //   const { projectId } = useParams();
-
-// //   const handleRequestService = (service) => {
-// //     navigate(`/dashboard/project/${projectId}/service-request`, {
-// //       state: {
-// //         service,
-// //         category: 'upgrade',
-// //         projectId
-// //       }
-// //     });
-// //   };
-
-// //   return (
-// //     <div className="min-h-screen bg-gray-50">
-// //       {/* Navigation */}
-// //       <ServiceNavigation projectId={projectId} />
-      
-// //       {/* Header */}
-// //       <div className="bg-white shadow-sm">
-// //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-// //           <div className="flex items-center justify-between">
-// //             <div>
-// //               <h1 className="text-2xl font-bold text-gray-900">Upgrade</h1>
-// //               <p className="text-gray-600 mt-1">Enhance your kitchen with modern upgrades and improvements</p>
-// //             </div>
-// //             <button
-// //               onClick={() => navigate(`/dashboard/project/${projectId}`)}
-// //               className="flex items-center text-[#3A1A1A] hover:text-[#2b1414] transition-colors"
-// //             >
-// //               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// //                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-// //               </svg>
-// //               Back to Dashboard
-// //             </button>
-// //           </div>
-// //         </div>
-// //       </div>
-
-// //       {/* Upgrade Grid */}
-// //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-// //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-// //           {servicesData.upgrade.map((service) => (
-// //             <ServiceCard
-// //               key={service.id}
-// //               service={service}
-// //               onRequestService={handleRequestService}
-// //             />
-// //           ))}
-// //         </div>
-// //       </div>
-
-// //       {/* Empty State */}
-// //       {servicesData.upgrade.length === 0 && (
-// //         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-// //           <div className="text-center">
-// //             <div className="text-6xl mb-4">⬆️</div>
-// //             <h3 className="text-lg font-medium text-gray-900 mb-2">No Upgrades Available</h3>
-// //             <p className="text-gray-500">Upgrade options will be available soon.</p>
-// //           </div>
-// //         </div>
-// //       )}
-// //     </div>
-// //   );
-// // };
-
-// // export default UpgradePage;
-
-// // client/src/pages/maintenance/UpgradePage.jsx
-// import React, { useState, useEffect } from 'react';
-// import { useNavigate, useParams } from 'react-router-dom';
-// import { useAuth } from '../../context/AuthContext';
-// import { feedbackAPI } from '../../services/api/feedback';
-// import ServiceCard from '../../components/maintenance/ServiceCard';
-// import ServiceNavigation from '../../components/maintenance/ServiceNavigation';
-// import { servicesData } from '../../data/servicesData';
-
-// const UpgradePage = () => {
-//   const navigate = useNavigate();
-//   const { projectId } = useParams();
-//   const { state, dispatch } = useAuth();
-//   const [feedbackStatus, setFeedbackStatus] = useState(null);
-//   const [open, setOpen] = useState(false);
-
-//   useEffect(() => {
-//     checkFeedbackStatus();
-//   }, []);
-
-//   const checkFeedbackStatus = async () => {
-//     try {
-//       const response = await feedbackAPI.checkFeedbackStatus();
-//       setFeedbackStatus(response.data);
-//     } catch (error) {
-//       console.error('Error checking feedback status:', error);
-//     }
-//   };
-
-//   const handleLogout = () => {
-//     dispatch({ type: 'LOGOUT' });
-//   };
-
-//   const navigateToProjects = () => {
-//     navigate('/dashboard');
-//   };
-
-//   const navigateToFeedback = () => {
-//     navigate('/dashboard/feedback');
-//   };
-
-//   const handleServiceNavigation = (category) => {
-//     navigate(`/dashboard/project/${projectId}/${category}`);
-//   };
-
-//   const handleRequestService = (service) => {
-//     navigate(`/dashboard/project/${projectId}/service-request`, {
-//       state: {
-//         service,
-//         category: 'upgrade',
-//         projectId
-//       }
-//     });
-//   };
-
-//   const menuItems = [
-//     { label: 'Services', category: 'services' },
-//     { label: 'Upgrade', category: 'upgrade' },
-//     { label: 'Support', category: 'support' },
-//     { label: "Service History", category: "service-history" },
-//   ];
-
-//   return (
-//     <div className="min-h-screen bg-[#F1E6DD]">
-//       {/* Uniform Header */}
-//       <header className="sticky top-0 z-50 bg-white/50 backdrop-blur-sm shadow-sm">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//           <div className="flex justify-between items-center h-16">
-//             <div className="flex items-center space-x-4">
-//               <button
-//                 onClick={() => navigate(`/dashboard/project/${projectId}`)}
-//                 className="flex items-center space-x-3 focus:outline-none"
-//               >
-//                 <img
-//                   alt="Modula Logo"
-//                   width="120"
-//                   height="40"
-//                   className="h-10 w-auto"
-//                   src="/modua.png"
-//                   style={{ color: "transparent" }}
-//                   onError={(e) => {
-//                     e.target.style.display = "none";
-//                     e.target.nextSibling.style.display = "block";
-//                   }}
-//                 />
-//                 <h1
-//                   className="text-2xl font-bold text-[#3A1A1A] font-montserrat"
-//                   style={{ display: "none" }}
-//                 >
-//                   Modula
-//                 </h1>
-//               </button>
-//             </div>
-            
-//             <div className="flex items-center space-x-4">
-//               <button
-//                 onClick={navigateToProjects}
-//                 className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#6B4B41] text-white px-4 py-2 rounded-[30px] hover:bg-[#4F372F] transition-colors text-center"
-//               >
-//                 All Projects
-//               </button>
-              
-//               <a 
-//                 className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
-//                 href="https://www.modula.in/contact-us"
-//                 target="_blank"
-//                 rel="noopener noreferrer"
-//               >
-//                 Contact Us
-//               </a>
-              
-//               <button
-//                 onClick={navigateToFeedback}
-//                 className={`font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center ${
-//                   feedbackStatus?.hasSubmitted
-//                     ? 'bg-green-500 text-white hover:bg-green-600'
-//                     : feedbackStatus?.canSubmit
-//                     ? 'bg-[#AF7C71] text-white hover:bg-[#6B4B41] animate-pulse'
-//                     : 'bg-gray-300 text-gray-600 cursor-not-allowed'
-//                 }`}
-//                 disabled={!feedbackStatus?.canSubmit && !feedbackStatus?.hasSubmitted}
-//                 title={
-//                   feedbackStatus?.hasSubmitted 
-//                     ? 'Feedback submitted' 
-//                     : feedbackStatus?.canSubmit 
-//                     ? 'Submit feedback' 
-//                     : 'Feedback not available yet'
-//                 }
-//               >
-//                 {feedbackStatus?.hasSubmitted ? 'Feedback ✓' : 'Feedback'}
-//               </button>
-              
-//               <div className="relative inline-block text-left">
-//                 <button
-//                   onClick={() => setOpen(!open)}
-//                   className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#D7C5AA] text-[#3A1A1A] px-4 py-2 rounded-[30px] hover:bg-[#AF7C71] hover:text-white transition-colors text-center"
-//                 >
-//                   Customer Support
-//                 </button>
-
-//                 {open && (
-//                   <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-//                     {menuItems.map((item, index) => (
-//                       <button
-//                         key={index}
-//                         onClick={() => {
-//                           handleServiceNavigation(item.category);
-//                           setOpen(false);
-//                         }}
-//                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-[#F5F1EC] hover:text-[#3A1A1A] transition-all"
-//                       >
-//                         {item.label}
-//                       </button>
-//                     ))}
-//                   </div>
-//                 )}
-//               </div>
-              
-//               <button
-//                 onClick={handleLogout}
-//                 className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3A1A1A] text-white px-4 py-2 rounded-[30px] hover:bg-[#4F372F] transition-colors text-center"
-//               >
-//                 Logout
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </header>
-
-//       {/* Navigation */}
-//       {/* <ServiceNavigation projectId={projectId} /> */}
-      
-//       {/* Header */}
-//       <div className="bg-[#F1E6DD]">
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-//           <div className="flex items-center justify-between">
-//             <div>
-//               <h1 className="text-3xl font-bold text-[#3A1A1A] font-montserrat">Upgrade</h1>
-//               {/* <p className="text-gray-600 mt-1">Enhance your kitchen with modern upgrades and improvements</p> */}
-//             </div>
-//             {/* <button
-//               onClick={() => navigate(`/dashboard/project/${projectId}`)}
-//               className="flex items-center text-[#3A1A1A] hover:text-[#2b1414] transition-colors"
-//             >
-//               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-//               </svg>
-//               Back to Dashboard
-//             </button> */}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Upgrade Grid */}
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-//         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-//           {servicesData.upgrade.map((service) => (
-//             <ServiceCard
-//               key={service.id}
-//               service={service}
-//               onRequestService={handleRequestService}
-//             />
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* Empty State */}
-//       {servicesData.upgrade.length === 0 && (
-//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-//           <div className="text-center">
-//             <div className="text-6xl mb-4">⬆️</div>
-//             <h3 className="text-lg font-medium text-gray-900 mb-2">No Upgrades Available</h3>
-//             <p className="text-gray-500">Upgrade options will be available soon.</p>
-//           </div>
-//         </div>
-//       )}
-
-//     </div>
-//   );
-// };
-
-// export default UpgradePage;
 
 // client/src/pages/maintenance/UpgradePage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useServiceCart } from '../../context/ServiceCartContext';
-import { feedbackAPI } from '../../services/api/feedback';
+// import { feedbackAPI } from '../../services/api/feedback';
 import ServiceCard from '../../components/maintenance/ServiceCard';
 import { servicesData } from '../../data/servicesData';
 
@@ -311,7 +13,7 @@ const UpgradePage = () => {
   const { projectId } = useParams();
   const { state, dispatch } = useAuth();
   const { totalItems, canProceedToCheckout, setCategory, clearCart } = useServiceCart();
-  const [feedbackStatus, setFeedbackStatus] = useState(null);
+  // const [feedbackStatus, setFeedbackStatus] = useState(null);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -347,9 +49,9 @@ const UpgradePage = () => {
     navigate('/dashboard');
   };
 
-  const navigateToFeedback = () => {
-    navigate('/dashboard/feedback');
-  };
+  // const navigateToFeedback = () => {
+  //   navigate('/dashboard/feedback');
+  // };
 
   const handleServiceNavigation = (category) => {
     navigate(`/dashboard/project/${projectId}/${category}`);
@@ -406,16 +108,9 @@ const UpgradePage = () => {
                 All Projects
               </button>
               
-              <a 
-                className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
-                href="https://www.modula.in/contact-us"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Contact Us
-              </a>
               
-              <button
+              
+              {/* <button
                 onClick={navigateToFeedback}
                 className={`font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center ${
                   feedbackStatus?.hasSubmitted
@@ -434,7 +129,7 @@ const UpgradePage = () => {
                 }
               >
                 {feedbackStatus?.hasSubmitted ? 'Feedback ✓' : 'Feedback'}
-              </button>
+              </button> */}
               
               <div className="relative inline-block text-left">
                 <button

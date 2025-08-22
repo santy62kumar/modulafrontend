@@ -215,7 +215,7 @@ export const STAGE_MAPPINGS = {
       progress: 20
     },
     2: { // In Production
-      stageIds: [17, 18, 25, 19, 9],
+      stageIds: [25, 19, 24, 9],
       name: 'In Production',
       description: 'Your kitchen is being manufactured',
       icon: '🏭',
@@ -223,23 +223,23 @@ export const STAGE_MAPPINGS = {
       progress: 40
     },
     3: { // Dispatched
-      stageIds: [24, 20, 21],
-      name: 'Dispatched',
+      stageIds: [31, 20, 21],
+      name: 'Ready for Dispatch',
       description: 'Your order is on the way',
       icon: '🚚',
       color: 'bg-orange-500',
       progress: 60
     },
     4: { // Installed
-      stageIds: [10, 22],
-      name: 'Installed',
+      stageIds: [10],
+      name: 'Ready for Installation',
       description: 'Installation completed',
       icon: '🔧',
       color: 'bg-purple-500',
       progress: 80
     },
     5: { // Order Completed
-      stageIds: [11, 12, 26, 27],
+      stageIds: [22, 11, 12, 26, 27],
       name: 'Order Complete',
       description: 'Project successfully completed',
       icon: '🎉',
@@ -251,7 +251,7 @@ export const STAGE_MAPPINGS = {
   // 3 Payment Milestones
   PAYMENT_STAGES: {
     1: { // Booking Fees
-      stageIds: [4],
+      stageIds: [4, 18],
       name: 'Booking Amount Received',
       description: 'Initial booking payment',
       amount: null,
@@ -259,7 +259,7 @@ export const STAGE_MAPPINGS = {
       progress: 33
     },
     2: { // First Installment
-      stageIds: [7, 8, 17, 18, 25, 19],
+      stageIds: [7, 8, 25, 19, 24],
       name: 'First Installment Received',
       description: 'Production milestone payment',
       amount: null,
@@ -267,51 +267,27 @@ export const STAGE_MAPPINGS = {
       progress: 66
     },
     3: { // Second Installment
-      stageIds: [9, 24, 20, 21, 10, 22, 11, 12, 26, 27],
+      stageIds: [9, 31, 20, 21, 10, 22, 11, 12, 26, 27],
       name: 'Second Installment Received',
       description: 'Final payment completed',
       amount: null,
       receiptAvailable: true,
       progress: 100
     }
-  },
-
-  // 3 Dispatch Sub-stages
-  DISPATCH_STAGES: {
-    1: { // Ready for Dispatch
-      stageIds: [24],
-      name: 'Ready for Dispatch',
-      description: 'Order prepared for shipping',
-      icon: '📦',
-      progress: 33
-    },
-    2: { // Order Dispatched
-      stageIds: [20],
-      name: 'Dispatched',
-      description: 'Order shipped from facility',
-      icon: '🚛',
-      progress: 66
-    },
-    3: { // Reached Location
-      stageIds: [21],
-      name: 'Reached Location',
-      description: 'Order delivered to your location',
-      icon: '📍',
-      progress: 100
-    }
   }
+
 };
 
 // Hidden stages that show placeholder
-export const HIDDEN_STAGES = [1, 2, 23, 13, 3, 14, 5, 6, 15, 16, 28];
+export const HIDDEN_STAGES = [1, 2, 13, 23, 3, 14, 5, 6, 15, 16, 28];
 
 // Stage flow order for fallback detection
 export const STAGE_FLOW_ORDER = [
-  4, 7, 8, 17, 18, 25, 19, // BEFORE STAGE 9
+  4, 18, 7, 8, 25, 19, 24, // BEFORE STAGE 9
   9,                        // INSTALLATION SCHEDULING TRIGGER
-  24, 20, 21, 10,
-  22,                      // FEEDBACK TRIGGER
-  11, 12, 26, 27           // FINAL STAGES
+  31, 20, 21,
+  10,                      // FEEDBACK TRIGGER
+  22, 11, 12, 26, 27           // FINAL STAGES
 ];
 
 export class StageMapper {
@@ -377,23 +353,23 @@ export class StageMapper {
     return null;
   }
 
-  static getCurrentDispatchStage(stageId) {
-    // Only show dispatch tracking for dispatch-related stages
-    if (![24, 20, 21].includes(stageId)) {
-      return null;
-    }
+  // static getCurrentDispatchStage(stageId) {
+  //   // Only show dispatch tracking for dispatch-related stages
+  //   if (![24, 20, 21].includes(stageId)) {
+  //     return null;
+  //   }
 
-    for (const [stageNum, config] of Object.entries(STAGE_MAPPINGS.DISPATCH_STAGES)) {
-      if (config.stageIds.includes(stageId)) {
-        return {
-          currentStage: parseInt(stageNum),
-          config,
-          stageId
-        };
-      }
-    }
-    return null;
-  }
+  //   for (const [stageNum, config] of Object.entries(STAGE_MAPPINGS.DISPATCH_STAGES)) {
+  //     if (config.stageIds.includes(stageId)) {
+  //       return {
+  //         currentStage: parseInt(stageNum),
+  //         config,
+  //         stageId
+  //       };
+  //     }
+  //   }
+  //   return null;
+  // }
 
   static isStageVisible(stageId) {
     return !HIDDEN_STAGES.includes(stageId);
@@ -421,9 +397,9 @@ export class StageMapper {
     return { completed, total, percentage };
   }
 
-  static shouldShowDispatchTracking(stageId) {
-    return [24, 20, 21].includes(stageId);
-  }
+  // static shouldShowDispatchTracking(stageId) {
+  //   return [24, 20, 21].includes(stageId);
+  // }
 
   static shouldTriggerFeedback(stageId) {
     return stageId === 22;

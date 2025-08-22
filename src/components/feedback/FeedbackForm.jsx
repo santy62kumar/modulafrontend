@@ -437,6 +437,10 @@ import Button from '../ui/Button';
 import Input from '../ui/Input';
 import RatingInput from '../forms/RatingInput';
 import { UserIcon, BuildingStorefrontIcon, MapPinIcon, CalendarIcon } from '@heroicons/react/24/outline';
+// import "./Dropdown.css";
+import Select from './Select';
+import CheckboxGrid from './CheckboxGrid';
+
 
 const FeedbackForm = () => {
   const navigate = useNavigate();
@@ -474,6 +478,13 @@ const FeedbackForm = () => {
   });
   const [errors, setErrors] = useState({});
 
+  const recommendOptions = [
+            { value: "", label: "Select an option" },      // optional placeholder
+            { value: "Yes",   label: "Yes, absolutely!" },
+            { value: "No",    label: "No, not really" },
+            { value: "Maybe", label: "Maybe, with improvements" },
+  ];
+
   // ✅ Check feedback eligibility on component mount
   useEffect(() => {
     checkFeedbackEligibility();
@@ -505,6 +516,7 @@ const FeedbackForm = () => {
       setCheckingEligibility(false);
     }
   };
+  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -741,7 +753,7 @@ const FeedbackForm = () => {
         />
 
         {/* Rating Section */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat mb-2">
               Rate Your Experience
@@ -860,9 +872,9 @@ const FeedbackForm = () => {
             )}
           </div>
 
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-[#3A1A1A] mb-2 font-montserrat">
-              Would you recommend Modula? <span className="text-red-500">*</span>
+              Would you recommend Modula? <span className="text-3A1A1A">*</span>
             </label>
             <select
               name="wouldRecommend"
@@ -878,6 +890,27 @@ const FeedbackForm = () => {
             {errors.wouldRecommend && (
               <p className="mt-1 text-sm text-red-500 font-nunito">{errors.wouldRecommend}</p>
             )}
+
+            
+          </div> */}
+          
+
+          <div>
+            <label className="block text-sm font-medium text-[#3A1A1A] mb-2 font-montserrat">
+              Would you recommend Modula? <span className="text-3A1A1A">*</span>
+            </label>
+
+            <Select
+              name="wouldRecommend"
+              value={formData.wouldRecommend}
+              onChange={(val) =>
+                handleInputChange({ target: { name: "wouldRecommend", value: val } })
+              }
+              options={recommendOptions}
+              placeholder="Select an option"
+              error={errors.wouldRecommend}
+            />
+
           </div>
         </div>
 
@@ -919,7 +952,7 @@ const FeedbackForm = () => {
         </div>
 
         {/* Confirmation Checkbox */}
-        <div className="flex items-start space-x-3">
+        {/* <div className="flex items-start space-x-3">
           <input
             type="checkbox"
             id="customerConfirmation"
@@ -934,7 +967,30 @@ const FeedbackForm = () => {
         </div>
         {errors.customerConfirmation && (
           <p className="text-sm text-red-500 font-nunito">{errors.customerConfirmation}</p>
+        )} */}
+
+        <div className="flex items-start space-x-3">
+          <input
+            type="checkbox"
+            id="customerConfirmation"
+            name="customerConfirmation"
+            className="mt-1 h-4 w-4 border-gray-300 rounded 
+                      focus:ring-[#AF7C71]"
+            style={{ accentColor: "#AF7C71" }}   // ✅ This line ensures checkbox is #AF7C71
+            checked={formData.customerConfirmation}
+            onChange={handleInputChange}
+          />
+          <label 
+            htmlFor="customerConfirmation" 
+            className="text-[#3A1A1A] font-nunito"
+          >
+            I confirm the kitchen has been installed to my satisfaction and I acknowledge the completion of the project. <span className="text-red-500">*</span>
+          </label>
+        </div>
+        {errors.customerConfirmation && (
+          <p className="text-sm text-red-500 font-nunito">{errors.customerConfirmation}</p>
         )}
+
 
         {/* Submit Button */}
         <div className="text-center">
@@ -947,9 +1003,9 @@ const FeedbackForm = () => {
           >
             {loading ? 'Submitting...' : 'Submit Feedback'}
           </Button>
-          <p className="text-[#6B4B41] text-sm mt-4 font-nunito">
+          {/* <p className="text-[#6B4B41] text-sm mt-4 font-nunito">
             Thank you for choosing Modula. Your feedback helps us improve our services.
-          </p>
+          </p> */}
         </div>
       </form>
     </div>

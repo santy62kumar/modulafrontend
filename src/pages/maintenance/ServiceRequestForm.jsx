@@ -1616,7 +1616,7 @@ const ServiceRequestForm = () => {
               >
                 All Projects
               </button>
-              
+{/*               
               <a 
                 className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
                 href="https://www.modula.in/contact-us"
@@ -1624,15 +1624,15 @@ const ServiceRequestForm = () => {
                 rel="noopener noreferrer"
               >
                 Contact Us
-              </a>
+              </a> */}
               
-              <button
+              {/* <button
                 onClick={navigateToFeedback}
                 className="font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center bg-gray-300 text-gray-600 cursor-not-allowed"
                 disabled
               >
                 Feedback
-              </button>
+              </button> */}
               
               <div className="relative inline-block text-left">
                 <button

@@ -104,7 +104,7 @@ const ContactCards = ({ stageId, odooLead }) => {
         
 
         {/* Not Assigned State */}
-        {!contact.assigned && (
+        {/* {!contact.assigned && (
           <div className="text-center py-4">
             <div className="text-sm text-gray-500 font-nunito mb-3">
               Contact person will be assigned soon
@@ -113,7 +113,7 @@ const ContactCards = ({ stageId, odooLead }) => {
               Request Assignment
             </button>
           </div>
-        )}
+        )} */}
 
         {/* Action Buttons */}
         {/* {contact.assigned && (

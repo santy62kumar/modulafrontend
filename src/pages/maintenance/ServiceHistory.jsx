@@ -231,7 +231,7 @@ const ServiceHistory = () => {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const { state, dispatch } = useAuth();
-  const [feedbackStatus, setFeedbackStatus] = useState(null);
+  // const [feedbackStatus, setFeedbackStatus] = useState(null);
   const [open, setOpen] = useState(false);
   const [requests, setRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -285,9 +285,9 @@ const ServiceHistory = () => {
     navigate('/dashboard');
   };
 
-  const navigateToFeedback = () => {
-    navigate('/dashboard/feedback');
-  };
+  // const navigateToFeedback = () => {
+  //   navigate('/dashboard/feedback');
+  // };
 
   const handleServiceNavigation = (category) => {
     navigate(`/dashboard/project/${projectId}/${category}`);
@@ -389,16 +389,9 @@ const ServiceHistory = () => {
                 All Projects
               </button>
               
-              <a 
-                className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
-                href="https://www.modula.in/contact-us"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Contact Us
-              </a>
               
-              <button
+              
+              {/* <button
                 onClick={navigateToFeedback}
                 className={`font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center ${
                   feedbackStatus?.hasSubmitted
@@ -417,7 +410,7 @@ const ServiceHistory = () => {
                 }
               >
                 {feedbackStatus?.hasSubmitted ? 'Feedback ✓' : 'Feedback'}
-              </button>
+              </button> */}
               
               <div className="relative inline-block text-left">
                 <button

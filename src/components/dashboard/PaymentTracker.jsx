@@ -78,14 +78,14 @@ const PaymentTracker = ({ stageId }) => {
               
 
               {/* Receipt Button */}
-              {stage.receiptAvailable && status === 'completed' && (
+              {/* {stage.receiptAvailable && status === 'completed' && (
                 <button
                   onClick={() => handleReceiptClick(stage)}
                   className="w-full text-xs bg-primary-100 text-primary-500 py-2 px-3 rounded hover:bg-primary-200 transition-colors duration-200 font-nunito"
                 >
                   View Receipt
                 </button>
-              )}
+              )} */}
 
               {/* Pending State */}
               {status === 'pending' && (

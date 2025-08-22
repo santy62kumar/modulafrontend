@@ -169,7 +169,7 @@ const Header = () => {
             onClick={() => navigate('/dashboard')}
             className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#D7C5AA] text-[#3A1A1A] px-4 py-2 rounded-[30px] hover:bg-[#AF7C71] hover:text-white transition-colors text-center"
           >
-            Dashboard
+            All Projects
           </button>
           
           {/* <button
@@ -196,7 +196,7 @@ const Header = () => {
             onClick={() => navigate('/dashboard')}
             className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#D7C5AA] text-[#3A1A1A] px-4 py-2 rounded-[30px] hover:bg-[#AF7C71] hover:text-white transition-colors text-center"
           >
-            Dashboard
+            All Projects
           </button>
           
           <button
@@ -223,7 +223,7 @@ const Header = () => {
           onClick={() => navigate('/dashboard')}
           className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#D7C5AA] text-[#3A1A1A] px-4 py-2 rounded-[30px] hover:bg-[#AF7C71] hover:text-white transition-colors text-center"
         >
-          Dashboard
+          All Projects
         </button>
         
         <button
@@ -271,14 +271,14 @@ const Header = () => {
           {/* Navigation Section */}
           <div className="flex items-center space-x-4">
             {/* Contact Us Link - Always visible */}
-            <a 
+            {/* <a 
               className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
               href="https://www.modula.in/contact-us"
               target="_blank"
               rel="noopener noreferrer"
             >
               Contact Us
-            </a>
+            </a> */}
             
             {/* Dynamic Navigation Buttons */}
             {getNavigationButtons()}

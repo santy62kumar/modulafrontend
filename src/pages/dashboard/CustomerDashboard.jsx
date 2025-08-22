@@ -550,71 +550,71 @@ const CustomerDashboard = () => {
     navigate(`/dashboard/project/${projectId}/${category}`);
   };
 
-  const renderFeedbackCard = (currentStageId) => {
-    if (!feedbackStatus) return null;
+  // const renderFeedbackCard = (currentStageId) => {
+  //   if (!feedbackStatus) return null;
 
-    if (feedbackStatus.canSubmit || feedbackStatus.hasSubmitted) {
-      return (
-        <div className={`rounded-lg p-6 border ${
-          feedbackStatus.hasSubmitted 
-            ? 'bg-green-50 border-green-200' 
-            : 'bg-[#F1E6DD] border-[#D7C5AA]'
-        }`}>
-          <div className="flex items-center space-x-4">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
-              feedbackStatus.hasSubmitted 
-                ? 'bg-green-500 text-white' 
-                : 'bg-[#AF7C71] text-white'
-            }`}>
-              {feedbackStatus.hasSubmitted ? '✅' : '📝'}
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat">
-                {feedbackStatus.hasSubmitted ? 'Feedback Submitted' : 'Share Your Feedback'}
-              </h3>
-              <p className="text-[#6B4B41] font-nunito">
-                {feedbackStatus.hasSubmitted 
-                  ? 'Thank you for your valuable feedback!' 
-                  : 'Your installation is complete! We\'d love to hear about your experience.'}
-              </p>
-              {feedbackStatus.hasSubmitted && feedbackStatus.status.submitted_at && (
-                <p className="text-sm text-[#6B4B41] font-nunito mt-1">
-                  Submitted on: {new Date(feedbackStatus.status.submitted_at).toLocaleDateString()}
-                </p>
-              )}
-            </div>
-            {!feedbackStatus.hasSubmitted && (
-              <Button onClick={navigateToFeedback}>
-                Give Feedback
-              </Button>
-            )}
-          </div>
-        </div>
-      );
-    }
+  //   // if (feedbackStatus.canSubmit || feedbackStatus.hasSubmitted) {
+  //   //   return (
+  //   //     <div className={`rounded-lg p-6 border ${
+  //   //       feedbackStatus.hasSubmitted 
+  //   //         ? 'bg-green-50 border-green-200' 
+  //   //         : 'bg-[#F1E6DD] border-[#D7C5AA]'
+  //   //     }`}>
+  //   //       {/* <div className="flex items-center space-x-4">
+  //   //         <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl ${
+  //   //           feedbackStatus.hasSubmitted 
+  //   //             ? 'bg-green-500 text-white' 
+  //   //             : 'bg-[#AF7C71] text-white'
+  //   //         }`}>
+  //   //           {feedbackStatus.hasSubmitted ? '✅' : '📝'}
+  //   //         </div>
+  //   //         <div className="flex-1">
+  //   //           <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat">
+  //   //             {feedbackStatus.hasSubmitted ? 'Feedback Submitted' : 'Share Your Feedback'}
+  //   //           </h3>
+  //   //           <p className="text-[#6B4B41] font-nunito">
+  //   //             {feedbackStatus.hasSubmitted 
+  //   //               ? 'Thank you for your valuable feedback!' 
+  //   //               : 'Your installation is complete! We\'d love to hear about your experience.'}
+  //   //           </p>
+  //   //           {feedbackStatus.hasSubmitted && feedbackStatus.status.submitted_at && (
+  //   //             <p className="text-sm text-[#6B4B41] font-nunito mt-1">
+  //   //               Submitted on: {new Date(feedbackStatus.status.submitted_at).toLocaleDateString()}
+  //   //             </p>
+  //   //           )}
+  //   //         </div>
+  //   //         {!feedbackStatus.hasSubmitted && (
+  //   //           <Button onClick={navigateToFeedback}>
+  //   //             Give Feedback
+  //   //           </Button>
+  //   //         )}
+  //   //       </div> */}
+  //   //     </div>
+  //   //   );
+  //   // }
 
-    if (StageMapper.shouldTriggerFeedback(currentStageId) || [10, 11, 12, 26, 27].includes(currentStageId)) {
-      return (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xl">
-              ⏰
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat">
-                Feedback Coming Soon
-              </h3>
-              <p className="text-[#6B4B41] font-nunito">
-                Feedback form will be available after your project installation is completed.
-              </p>
-            </div>
-          </div>
-        </div>
-      );
-    }
+  //   // if (StageMapper.shouldTriggerFeedback(currentStageId) || [10, 11, 12, 26, 27].includes(currentStageId)) {
+  //   //   return (
+  //   //     <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+  //   //       <div className="flex items-center space-x-4">
+  //   //         <div className="w-12 h-12 bg-yellow-500 text-white rounded-full flex items-center justify-center text-xl">
+  //   //           ⏰
+  //   //         </div>
+  //   //         <div className="flex-1">
+  //   //           <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat">
+  //   //             Feedback Coming Soon
+  //   //           </h3>
+  //   //           <p className="text-[#6B4B41] font-nunito">
+  //   //             Feedback form will be available after your project installation is completed.
+  //   //           </p>
+  //   //         </div>
+  //   //       </div>
+  //   //     </div>
+  //   //   );
+  //   // }
 
-    return null;
-  };
+  //   return null;
+  // };
 
   const renderDashboardContent = () => {
     if (!projectData) {
@@ -666,11 +666,11 @@ const CustomerDashboard = () => {
 
           <div className="bg-white rounded-lg shadow-sm p-8 text-center">
             <div className="max-w-md mx-auto">
-              <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              {/* <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-              </div>
+              </div> */}
 
               <h3 className="text-lg font-semibold text-[#3A1A1A] font-montserrat mb-2">
                 Welcome, {lead?.name}!
@@ -682,18 +682,18 @@ const CustomerDashboard = () => {
 
               <div className="space-y-3">
                 <p className="text-sm text-[#6B4B41] font-nunito">
-                  <strong>Lead ID:</strong> {lead?.id}
+                  <strong>Order ID:</strong> {lead?.id}
                 </p>
-                <p className="text-sm text-[#6B4B41] font-nunito">
+                {/* <p className="text-sm text-[#6B4B41] font-nunito">
                   <strong>Phone:</strong> {lead?.phone}
-                </p>
+                </p> */}
               </div>
 
-              <div className="mt-6">
+              {/* <div className="mt-6">
                 <Button onClick={() => window.location.href = 'tel:+916205281574'}>
                   Contact Support
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -750,10 +750,10 @@ const CustomerDashboard = () => {
         <ContactCards stageId={currentStageId} odooLead={projectData} />
 
         {/* Enhanced Feedback Card */}
-        {renderFeedbackCard(currentStageId)}
+        {/* {renderFeedbackCard(currentStageId)} */}
 
         {/* Legacy Feedback Trigger (keeping for compatibility) */}
-        {StageMapper.shouldTriggerFeedback(currentStageId) && !feedbackStatus?.hasSubmitted && (
+        {/* {StageMapper.shouldTriggerFeedback(currentStageId) && !feedbackStatus?.hasSubmitted && (
           <div className="bg-[#F1E6DD] rounded-lg p-6 border border-[#D7C5AA]">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-[#AF7C71] text-white rounded-full flex items-center justify-center text-xl">
@@ -772,7 +772,7 @@ const CustomerDashboard = () => {
               </Button>
             </div>
           </div>
-        )}
+        )} */}
       </div>
     );
   };  if (loading) {
@@ -820,36 +820,42 @@ const CustomerDashboard = () => {
                 All Projects
               </button>
               
-              <a 
+              {/* <a 
                 className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#3D1D1C] text-white px-4 py-2 rounded-[30px] hover:bg-[#2b1514] transition-colors text-center" 
                 href="https://www.modula.in/contact-us"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Contact Us
-              </a>
-              
+              </a> */}
               <button
                 onClick={navigateToFeedback}
-                // className={`font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center ${
-                //   feedbackStatus?.hasSubmitted
-                //     ? 'bg-green-500 text-white hover:bg-green-600'
-                //     : feedbackStatus?.canSubmit
-                //     ? 'bg-[#AF7C71] text-white hover:bg-[#6B4B41] animate-pulse'
-                //     : 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                // }`}
-                // disabled={!feedbackStatus?.canSubmit && !feedbackStatus?.hasSubmitted}
-                // title={
-                //   feedbackStatus?.hasSubmitted 
-                //     ? 'Feedback submitted' 
-                //     : feedbackStatus?.canSubmit 
-                //     ? 'Submit feedback' 
-                //     : 'Feedback not available yet'
-                // }
+                className="font-montserrat text-[14px] leading-[18px] font-bold bg-[#6B4B41] text-white px-4 py-2 rounded-[30px] hover:bg-[#4F372F] transition-colors text-center"
               >
-                {/* {feedbackStatus?.hasSubmitted ? 'Feedback ✓' : 'Feedback'} */}
-                feedback
+                Feedback
               </button>
+              
+              {/* <button
+                onClick={navigateToFeedback}
+                className={`font-montserrat text-[14px] leading-[18px] font-bold px-4 py-2 rounded-[30px] transition-colors text-center ${
+                  feedbackStatus?.hasSubmitted
+                    ? 'bg-green-500 text-white hover:bg-green-600'
+                    : feedbackStatus?.canSubmit
+                    ? 'bg-[#AF7C71] text-white hover:bg-[#6B4B41] animate-pulse'
+                    : 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                }`}
+                disabled={!feedbackStatus?.canSubmit && !feedbackStatus?.hasSubmitted}
+                title={
+                  feedbackStatus?.hasSubmitted 
+                    ? 'Feedback submitted' 
+                    : feedbackStatus?.canSubmit 
+                    ? 'Submit feedback' 
+                    : 'Feedback not available yet'
+                }
+              >
+                {/* {feedbackStatus?.hasSubmitted ? 'Feedback ✓' : 'Feedback'} 
+                Feedback
+              </button> */}
               
               {/* <button
                 onClick={navigateToMaintenance}

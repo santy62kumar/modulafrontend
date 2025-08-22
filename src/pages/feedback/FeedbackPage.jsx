@@ -125,7 +125,7 @@ const FeedbackPage = () => {
     }
 
     // ✅ Not eligible state
-    if (feedbackStatus && !feedbackStatus.canSubmit && !feedbackStatus.hasSubmitted) {
+    if (feedbackStatus.hasSubmitted) {
       return (
         <div className="text-center py-16">
           <div className="w-20 h-20 bg-[#F1E6DD] rounded-full flex items-center justify-center mx-auto mb-6">
@@ -134,9 +134,9 @@ const FeedbackPage = () => {
           <h3 className="text-2xl font-semibold text-[#3A1A1A] font-montserrat mb-4">
             Feedback Not Available Yet
           </h3>
-          <p className="text-[#6B4B41] font-nunito mb-8 max-w-lg mx-auto text-lg">
+          {/* <p className="text-[#6B4B41] font-nunito mb-8 max-w-lg mx-auto text-lg">
             {feedbackStatus.message || 'Your feedback form will be available after the project installation is completed. We will notify you via SMS when it\'s ready.'}
-          </p>
+          </p> */}
           
           {/* <div className="bg-[#F1E6DD] rounded-lg p-6 max-w-md mx-auto mb-8">
             <h4 className="font-semibold text-[#3A1A1A] font-montserrat mb-3">What happens next?</h4>
